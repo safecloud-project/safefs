@@ -22,12 +22,11 @@ RUN mkdir -p /mnt/fuse  &&\
     mkdir -p /var/log/sfuse/ &&\
     mkdir -p /var/tmp/sdsfuse/dev1 && mkdir -p /var/tmp/sdsfuse/dev2 && mkdir -p /var/tmp/sdsfuse/dev3 &&\
     #Cleanup
-    apt-get -y remove --auto-remove autoconf automake build-essential byacc dh-exec flex g++ gcc libtool make                          &&\
-    apt-get clean                                                                                                                      &&\
+    apt-get -y remove --auto-remove autoconf automake build-essential byacc dh-exec flex g++ gcc libtool make &&\
+    apt-get clean &&\
     rm -rf /var/lib/apt/lists/* /var/tmp/*
-COPY entrypoint.sh /usr/local/bin/
-COPY mount.sh /usr/local/bin
+COPY entrypoint.sh mount.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/entrypoint.sh /usr/local/bin/mount.sh
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
-WORKDIR /tmp/filebench-1.5-alpha3
 VOLUME /mnt/fuse
+WORKDIR /
