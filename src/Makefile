@@ -1,4 +1,4 @@
-TARGETS = sdsfuse
+TARGETS = safefs
 
 
 CC ?= gcc
@@ -15,7 +15,7 @@ OPENSSL_FLAGS = -lssl -lcrypto
 LIBERASURECODE_FLAGS = -lerasurecode -ldl
 COMP_FLAGS = -Wall -g
 
-all: sdsfuse
+all: safefs
 
 logdef.o: logdef.c
 	$(CC) $< `pkg-config --cflags --libs  glib-2.0` $(CFLAGS_EXTRA) -c -o $@
@@ -80,7 +80,7 @@ multi_loopback.o: multi_loopback.c utils.o
 inih.o: inih/ini.c
 	$(CC) $< -c -o $@
 
-sdsfuse: alignfuse.o nopalign.o blockalign.o  sds_config.o logdef.o inih.o timestamps.o sfuse.o symmetric.o det_symmetric.o rand_symetric.o nopcrypt.o nopcrypt_padded.o utils.o ivtable.o erasure.o rep.o xor.o multi_loopback.o nopfuse.o
+safefs: alignfuse.o nopalign.o blockalign.o  sds_config.o logdef.o inih.o timestamps.o sfuse.o symmetric.o det_symmetric.o rand_symetric.o nopcrypt.o nopcrypt_padded.o utils.o ivtable.o erasure.o rep.o xor.o multi_loopback.o nopfuse.o
 	$(CC) SDSFuse.c alignfuse.o  nopalign.o blockalign.o timestamps.o sfuse.o symmetric.o det_symmetric.o rand_symetric.o rep.o xor.o erasure.o nopcrypt.o sds_config.o logdef.o inih.o nopcrypt_padded.o utils.o multi_loopback.o ivtable.o nopfuse.o  $(LIBCRYPT_FLAGS) $(CFLAGS_FUSE) $(CFLAGS_LIBFUSE)  $(CFLAGS_EXTRA)  $(OPENSSL_FLAGS) $(LIBERASURECODE_FLAGS) `pkg-config --cflags --libs  glib-2.0` -o $@
 
 

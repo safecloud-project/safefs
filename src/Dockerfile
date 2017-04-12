@@ -15,7 +15,7 @@ COPY . /usr/local/src/sfuse
 
 RUN mkdir -p /mnt/fuse  &&\ 
     cd /usr/local/src/sfuse/  &&\
-    make clean -s && make all -s && mv sdsfuse /usr/local/bin && make clean -s && ldconfig   &&\
+    make clean -s && make all -s && mv safefs /usr/local/bin && make clean -s && ldconfig   &&\
     # Copy configuration files in standard location
     mkdir /etc/sdsfuse && cp /usr/local/src/sfuse/default.ini /etc/sdsfuse  && cp /usr/local/src/sfuse/zlog.conf /etc/sdsfuse          &&\
     # Set up log directory
