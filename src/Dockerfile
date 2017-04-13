@@ -56,8 +56,8 @@ RUN apt-get update &&\
     cd /tmp                                                                                                                            &&\
     wget https://github.com/benhoyt/inih/archive/r38.tar.gz --output-document=/tmp/inih.tgz --quiet                                    &&\
     tar xaf inih.tgz                                                                                                                   &&\
-    mkdir --parents /usr/local/src/sfuse                                                                                               &&\
-    mv inih-r38 /usr/local/src/sfuse/inih                                                                                              &&\
+    mkdir --parents /usr/local/src/safefs                                                                                              &&\
+    mv inih-r38 /usr/local/src/safefs/inih                                                                                             &&\
     rm inih.tgz                                                                                                                        &&\
     ldconfig                                                                                                                           &&\
     #Cleanup
@@ -78,16 +78,16 @@ RUN apt-get update &&\
     apt-get autoremove autoconf automake build-essential git libtool --yes --quiet
 
 
-COPY . /usr/local/src/sfuse
+COPY . /usr/local/src/safefs
 
 RUN mkdir -p /mnt/fuse  &&\ 
-    cd /usr/local/src/sfuse/  &&\
+    cd /usr/local/src/safefs/  &&\
     make clean -s && make all -s && mv safefs /usr/local/bin && make clean -s && ldconfig   &&\
     # Copy configuration files in standard location
-    mkdir /etc/sdsfuse && cp /usr/local/src/sfuse/default.ini /etc/sdsfuse  && cp /usr/local/src/sfuse/zlog.conf /etc/sdsfuse          &&\
+    mkdir /etc/safefs && cp /usr/local/src/safefs/default.ini /etc/safefs  && cp /usr/local/src/safefs/zlog.conf /etc/safefs          &&\
     # Set up log directory
     mkdir -p /var/log/sfuse/ &&\
-    mkdir -p /var/tmp/sdsfuse/dev1 && mkdir -p /var/tmp/sdsfuse/dev2 && mkdir -p /var/tmp/sdsfuse/dev3 &&\
+    mkdir -p /var/tmp/safefs/dev1 && mkdir -p /var/tmp/safefs/dev2 && mkdir -p /var/tmp/safefs/dev3 &&\
     #Cleanup
     apt-get -y remove --auto-remove autoconf automake build-essential byacc dh-exec flex g++ gcc libtool make &&\
     apt-get clean &&\

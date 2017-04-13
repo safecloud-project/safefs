@@ -134,7 +134,7 @@ void LOG_INIT() {
         fprintf(stderr, "[logdef::LOG_INIT] Could not load any configuration file\n");
         exit(EXIT_FAILURE);
     }
-    fprintf(stdout, "Loading sdsfuse configuration file: %s\n", config_path);
+    fprintf(stdout, "Loading safefs configuration file: %s\n", config_path);
 
     assert(init_config(config_path, &CONFIGURATION) == 0);
 

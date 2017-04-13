@@ -15,7 +15,7 @@
 
 // Default configuration files location
 #define LOCAL_SDSCONFIG_PATH "default.ini"
-#define DEFAULT_SDSCONFIG_PATH "/etc/sdsfuse/default.ini"
+#define DEFAULT_SDSCONFIG_PATH "/etc/safefs/default.ini"
 
 typedef struct multi_loop_configuration {
     GSList* loop_paths;

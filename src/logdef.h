@@ -8,7 +8,7 @@ Sfuse
 #define __LOGDEF_H__
 
 #define LOCAL_ZLOGCONFIG_PATH "zlog.conf"
-#define DEFAULT_ZLOGCONFIG_PATH "/etc/sdsfuse/zlog.conf"
+#define DEFAULT_ZLOGCONFIG_PATH "/etc/safefs/zlog.conf"
 /**
  * Initializes the logging facilities
  */
