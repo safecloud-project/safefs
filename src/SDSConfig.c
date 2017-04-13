@@ -125,7 +125,6 @@ int init_config(char* configuration_file_path, configuration **config){
         return 1;
     }
     GSList* current = pconfig->m_loop_config.loop_paths;
-    printf("Current list pointer is %p\n", current);
     *config = pconfig;
     return 0;
 }

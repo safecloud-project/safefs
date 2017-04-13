@@ -136,7 +136,6 @@ void LOG_INIT() {
     exit(EXIT_FAILURE);
   }
   fprintf(stdout, "Loading sdsfuse configuration file: %s\n", config_path);
-  printf("Exiting logging init function\n");
 
   assert(init_config(config_path, &CONFIGURATION) == 0);
 
