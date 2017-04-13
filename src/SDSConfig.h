@@ -13,45 +13,41 @@
 #define BLOCK_ALIGN 2
 #define NOPFUSE 3
 
-//Default configuration files location
-#define LOCAL_SDSCONFIG_PATH  "default.ini"
+// Default configuration files location
+#define LOCAL_SDSCONFIG_PATH "default.ini"
 #define DEFAULT_SDSCONFIG_PATH "/etc/sdsfuse/default.ini"
 
+typedef struct multi_loop_configuration {
+    GSList* loop_paths;
+    char* root_path;
+    int mode;
+    int ndevs;
+} m_loop_conf;
 
-typedef struct  multi_loop_configuration {
-	GSList* loop_paths;
-	char* root_path;
-	int mode;
-	int ndevs;
-}m_loop_conf;
-
-typedef struct encode_configuration{
-	char* key;
-	char* iv;
-	int key_size;
-	int mode;
+typedef struct encode_configuration {
+    char* key;
+    char* iv;
+    int key_size;
+    int mode;
 } enc_config;
 
 typedef struct block_align_configuration {
-	int block_size;
-	int mode;
+    int block_size;
+    int mode;
 } block_align_config;
 
-typedef struct log_configuration {
-	int mode;
-} log_config;
+typedef struct log_configuration { int mode; } log_config;
 
-typedef struct sds_configuration{
-	enc_config enc_config;
-	m_loop_conf m_loop_config;
-	block_align_config block_config;
-	GSList* layers;
-	log_config logging_configuration;
+typedef struct sds_configuration {
+    enc_config enc_config;
+    m_loop_conf m_loop_config;
+    block_align_config block_config;
+    GSList* layers;
+    log_config logging_configuration;
 } configuration;
 
 int init_config(char* configuration_file_path, configuration** config);
 
 int clean_config(configuration* config);
-
 
 #endif /* __SDSConfig_H__ */

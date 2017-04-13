@@ -49,9 +49,6 @@
 #define CHMOD_OP 20
 #define CHOWN_OP 21
 
-
-
-
 struct loopback_dirp {
     DIR *dp;
     struct dirent *entry;
@@ -60,37 +57,34 @@ struct loopback_dirp {
 
 struct mpath_aux {
     struct loopback_dirp *ldp;
-    unsigned long* devs_fd;
+    unsigned long *devs_fd;
 };
 
-struct op_info{
-	int op_type;
-	int op_res;
-	off_t fd;
-	char* path;
-	char* frompath;
-	char* topath;
-	char* buf;
-	uid_t uid;
-	gid_t gid;
-	off_t size;
-	uint64_t magicblocksize;
-	off_t magicblockoffset;
-	off_t offset;
-	mode_t mode;
-	dev_t rdev;
-	int flags;
-	struct loopback_dirp *d;
-	pthread_mutex_t *lock;
-	pthread_cond_t *cond;
-	int *ops_done;
-	int op_error;
-
+struct op_info {
+    int op_type;
+    int op_res;
+    off_t fd;
+    char *path;
+    char *frompath;
+    char *topath;
+    char *buf;
+    uid_t uid;
+    gid_t gid;
+    off_t size;
+    uint64_t magicblocksize;
+    off_t magicblockoffset;
+    off_t offset;
+    mode_t mode;
+    dev_t rdev;
+    int flags;
+    struct loopback_dirp *d;
+    pthread_mutex_t *lock;
+    pthread_cond_t *cond;
+    int *ops_done;
+    int op_error;
 };
 
-
-
-int init_multi_loopback_driver(struct fuse_operations** fuse_operations, configuration data);
+int init_multi_loopback_driver(struct fuse_operations **fuse_operations, configuration data);
 int clean_multi_loopback_driver(configuration data);
 
 #endif

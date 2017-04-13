@@ -34,25 +34,24 @@ static screen_func_t screen = NULL;
 * @returns 0 if OK, -1 if not
 */
 static int check_directory_existence(char *path) {
-  char *directory = dirname(path);
-  struct stat s;
-  int err = stat(directory, &s);
-  if (-1 == err) {
-    if (ENOENT == errno) {
-      fprintf(stderr, "The logging directory %s does not exist\n", directory);
-      return -1;
+    char *directory = dirname(path);
+    struct stat s;
+    int err = stat(directory, &s);
+    if (-1 == err) {
+        if (ENOENT == errno) {
+            fprintf(stderr, "The logging directory %s does not exist\n", directory);
+            return -1;
+        } else {
+            perror("stat");
+            return -1;
+        }
     } else {
-      perror("stat");
-      return -1;
+        if (!S_ISDIR(s.st_mode)) {
+            fprintf(stderr, "The logging destination %s is not a directory\n", directory);
+            return -1;
+        }
     }
-  } else {
-    if (!S_ISDIR(s.st_mode)) {
-      fprintf(stderr, "The logging destination %s is not a directory\n",
-              directory);
-      return -1;
-    }
-  }
-  return 0;
+    return 0;
 }
 
 /**
@@ -61,26 +60,26 @@ static int check_directory_existence(char *path) {
  * @parm path Path to the zlog configuration file to test
  */
 static void check_log_file(char *zlog_config_path) {
-  char buffer[MAX_CFG_LINE + 1];
-  FILE *conf_file = fopen(zlog_config_path, "r");
-  char path[256];
-  while (fgets(buffer, MAX_CFG_LINE, conf_file) != NULL) {
-    path[0] = '\0';
-    sscanf(buffer, "sfuse.DEBUG \"%s\"", path);
-    if (strlen(path) > 0) {
-      if (check_directory_existence(path) != 0) {
-        exit(EXIT_FAILURE);
-      }
+    char buffer[MAX_CFG_LINE + 1];
+    FILE *conf_file = fopen(zlog_config_path, "r");
+    char path[256];
+    while (fgets(buffer, MAX_CFG_LINE, conf_file) != NULL) {
+        path[0] = '\0';
+        sscanf(buffer, "sfuse.DEBUG \"%s\"", path);
+        if (strlen(path) > 0) {
+            if (check_directory_existence(path) != 0) {
+                exit(EXIT_FAILURE);
+            }
+        }
+        path[0] = '\0';
+        sscanf(buffer, "sfuse.ERROR \"%s\"", path);
+        if (strlen(path) > 0) {
+            if (check_directory_existence(path) != 0) {
+                exit(EXIT_FAILURE);
+            }
+        }
     }
-    path[0] = '\0';
-    sscanf(buffer, "sfuse.ERROR \"%s\"", path);
-    if (strlen(path) > 0) {
-      if (check_directory_existence(path) != 0) {
-        exit(EXIT_FAILURE);
-      }
-    }
-  }
-  fclose(conf_file);
+    fclose(conf_file);
 }
 
 /**
@@ -97,8 +96,8 @@ static void DROP_MSG(const char *format, va_list args) {}
  * @param args A list of arguments accompanying the format
  */
 static void ACTIVE_DEBUG_MSG(const char *format, va_list args) {
-  assert(CATEGORY != NULL);
-  vzlog_debug(CATEGORY, format, args);
+    assert(CATEGORY != NULL);
+    vzlog_debug(CATEGORY, format, args);
 }
 
 /**
@@ -107,8 +106,8 @@ static void ACTIVE_DEBUG_MSG(const char *format, va_list args) {
  * @param args A list of arguments accompanying the format
  */
 void ACTIVE_ERROR_MSG(const char *format, va_list args) {
-  assert(CATEGORY != NULL);
-  vzlog_error(CATEGORY, format, args);
+    assert(CATEGORY != NULL);
+    vzlog_error(CATEGORY, format, args);
 }
 
 /**
@@ -117,8 +116,8 @@ void ACTIVE_ERROR_MSG(const char *format, va_list args) {
  * @param args A list of arguments accompanying the format
  */
 void ACTIVE_SCREEN_MSG(const char *format, va_list args) {
-  assert(CATEGORY != NULL);
-  vprintf(format, args);
+    assert(CATEGORY != NULL);
+    vprintf(format, args);
 }
 
 /**
@@ -126,80 +125,80 @@ void ACTIVE_SCREEN_MSG(const char *format, va_list args) {
  * files of the project.
  */
 void LOG_INIT() {
-  char *config_path = NULL;
-  if (file_exists(LOCAL_SDSCONFIG_PATH)) {
-    config_path = LOCAL_SDSCONFIG_PATH;
-  } else if (file_exists(DEFAULT_SDSCONFIG_PATH)) {
-    config_path = DEFAULT_SDSCONFIG_PATH;
-  } else {
-    fprintf(stderr, "[logdef::LOG_INIT] Could not load any configuration file\n");
-    exit(EXIT_FAILURE);
-  }
-  fprintf(stdout, "Loading sdsfuse configuration file: %s\n", config_path);
-
-  assert(init_config(config_path, &CONFIGURATION) == 0);
-
-  if (CONFIGURATION->logging_configuration.mode) {
-    char *zlog_config_path;
-    if (file_exists(LOCAL_ZLOGCONFIG_PATH)) {
-      zlog_config_path = LOCAL_ZLOGCONFIG_PATH;
-    } else if (file_exists(DEFAULT_ZLOGCONFIG_PATH)) {
-      zlog_config_path = DEFAULT_ZLOGCONFIG_PATH;
+    char *config_path = NULL;
+    if (file_exists(LOCAL_SDSCONFIG_PATH)) {
+        config_path = LOCAL_SDSCONFIG_PATH;
+    } else if (file_exists(DEFAULT_SDSCONFIG_PATH)) {
+        config_path = DEFAULT_SDSCONFIG_PATH;
     } else {
-      fprintf(stderr, "[logdef::LOG_INIT] Could not find any configuration file for zlog!\n");
-      exit(EXIT_FAILURE);
+        fprintf(stderr, "[logdef::LOG_INIT] Could not load any configuration file\n");
+        exit(EXIT_FAILURE);
     }
-    fprintf(stdout, "Loading zlog configuration file: %s\n", zlog_config_path);
-    int rc = zlog_init(zlog_config_path);
-    if (rc) {
-      fprintf(stderr, "[logdef::LOG_INIT] Could not load zlog configuration file (rc = %d)\n", rc);
-      exit(EXIT_FAILURE);
+    fprintf(stdout, "Loading sdsfuse configuration file: %s\n", config_path);
+
+    assert(init_config(config_path, &CONFIGURATION) == 0);
+
+    if (CONFIGURATION->logging_configuration.mode) {
+        char *zlog_config_path;
+        if (file_exists(LOCAL_ZLOGCONFIG_PATH)) {
+            zlog_config_path = LOCAL_ZLOGCONFIG_PATH;
+        } else if (file_exists(DEFAULT_ZLOGCONFIG_PATH)) {
+            zlog_config_path = DEFAULT_ZLOGCONFIG_PATH;
+        } else {
+            fprintf(stderr, "[logdef::LOG_INIT] Could not find any configuration file for zlog!\n");
+            exit(EXIT_FAILURE);
+        }
+        fprintf(stdout, "Loading zlog configuration file: %s\n", zlog_config_path);
+        int rc = zlog_init(zlog_config_path);
+        if (rc) {
+            fprintf(stderr, "[logdef::LOG_INIT] Could not load zlog configuration file (rc = %d)\n", rc);
+            exit(EXIT_FAILURE);
+        }
+        check_log_file(zlog_config_path);
+        CATEGORY = zlog_get_category("sfuse");
+        if (!CATEGORY) {
+            fprintf(stderr, "[logdef::LOG_INIT] Could not load category sfuse from zlog.conf\n");
+            exit(EXIT_FAILURE);
+        }
+        debug = ACTIVE_DEBUG_MSG;
+        error = ACTIVE_ERROR_MSG;
+        screen = ACTIVE_SCREEN_MSG;
+        fprintf(stdout, "logging enabled\n");
+    } else {
+        debug = DROP_MSG;
+        error = DROP_MSG;
+        screen = DROP_MSG;
+        fprintf(stdout, "logging disabled\n");
     }
-    check_log_file(zlog_config_path);
-    CATEGORY = zlog_get_category("sfuse");
-    if (!CATEGORY) {
-      fprintf(stderr, "[logdef::LOG_INIT] Could not load category sfuse from zlog.conf\n");
-      exit(EXIT_FAILURE);
-    }
-    debug = ACTIVE_DEBUG_MSG;
-    error = ACTIVE_ERROR_MSG;
-    screen = ACTIVE_SCREEN_MSG;
-    fprintf(stdout, "logging enabled\n");
-  } else {
-    debug = DROP_MSG;
-    error = DROP_MSG;
-    screen = DROP_MSG;
-    fprintf(stdout, "logging disabled\n");
-  }
 }
 
 /**
  * Tears down the logging infrastructure
  */
 void LOG_EXIT() {
-  if (CONFIGURATION->logging_configuration.mode) {
-    zlog_fini();
-  }
-  clean_config(CONFIGURATION);
+    if (CONFIGURATION->logging_configuration.mode) {
+        zlog_fini();
+    }
+    clean_config(CONFIGURATION);
 }
 
 void DEBUG_MSG(const char *format, ...) {
-  va_list args;
-  va_start(args, format);
-  debug(format, args);
-  va_end(args);
+    va_list args;
+    va_start(args, format);
+    debug(format, args);
+    va_end(args);
 }
 
 void ERROR_MSG(const char *format, ...) {
-  va_list args;
-  va_start(args, format);
-  error(format, args);
-  va_end(args);
+    va_list args;
+    va_start(args, format);
+    error(format, args);
+    va_end(args);
 }
 
 void SCREEN_MSG(const char *format, ...) {
-  va_list args;
-  va_start(args, format);
-  screen(format, args);
-  va_end(args);
+    va_list args;
+    va_start(args, format);
+    screen(format, args);
+    va_end(args);
 }

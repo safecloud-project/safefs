@@ -2,7 +2,7 @@
 #define __SDS_UTILS_H__
 
 #define PATHSIZE 500
-//char ROOTPATH[PATHSIZE];
+// char ROOTPATH[PATHSIZE];
 
 /**
  * Checks if a file exists. Returns 1 if it exists, 0 if it does not
@@ -11,11 +11,11 @@
  */
 int file_exists(char *path);
 
-int replace_path(char const *path,const char *newpath);
+int replace_path(char const *path, const char *newpath);
 
-void generate_random_block(unsigned char* str, int size);
+void generate_random_block(unsigned char *str, int size);
 
-void str_split(char* a_str);
+void str_split(char *a_str);
 
 /**
  * Checks if a directory exists and if it does not create it.

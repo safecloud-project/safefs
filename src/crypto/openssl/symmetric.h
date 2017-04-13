@@ -26,4 +26,4 @@ unsigned char* openssl_rand_str(int length);
 
 void handleErrors(void);
 
-#endif 
+#endif

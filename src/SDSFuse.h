@@ -1,7 +1,6 @@
 #ifndef __SDSFuse_H__
 #define __SDSFuse_H__
 
-
 #include "alignfuse.h"
 #include "sfuse.h"
 #include "inih/ini.h"
