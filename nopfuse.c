@@ -3,8 +3,6 @@
   (c) 2016 2016 INESC TEC. Written by J. Paulo and R. Pontes
 
 */
-
-
 #include "nopfuse.h"
 #include "timestamps/timestamps.h"
 
