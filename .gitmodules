@@ -1,6 +1,0 @@
-[submodule "src/zlog"]
-	path = src/zlog
-	url = https://github.com/HardySimpson/zlog.git
-[submodule "src/inih"]
-	path = src/inih
-	url = https://github.com/benhoyt/inih.git
