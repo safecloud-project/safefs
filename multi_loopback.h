@@ -23,7 +23,7 @@
 #include <errno.h>
 #include <sys/time.h>
 #include "utils.h"
-#include "SDSConfig.h"
+#include "SFSConfig.h"
 #include "layers_def.h"
 #include "multi_loop_drivers/xor.h"
 #include "multi_loop_drivers/rep.h"

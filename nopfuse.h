@@ -33,7 +33,7 @@ typedef unsigned long u_long;
 #include <sys/xattr.h>
 #include <sys/param.h>
 #include "layers_def.h"
-#include "SDSConfig.h"
+#include "SFSConfig.h"
 
 #include "logdef.h"
 

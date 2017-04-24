@@ -84,16 +84,17 @@ RUN mkdir -p /mnt/fuse  &&\
     cd /usr/local/src/safefs/  &&\
     make clean -s && make all -s && mv safefs /usr/local/bin && make clean -s && ldconfig   &&\
     # Copy configuration files in standard location
-    mkdir /etc/safefs && cp /usr/local/src/safefs/default.ini /etc/safefs  && cp /usr/local/src/safefs/zlog.conf /etc/safefs          &&\
+    mkdir /etc/safefs && cp /usr/local/src/safefs/conf/default.ini /etc/safefs  && cp /usr/local/src/safefs/zlog.conf /etc/safefs          &&\
     # Set up log directory
     mkdir -p /var/log/sfuse/ &&\
     mkdir -p /var/tmp/safefs/dev1 && mkdir -p /var/tmp/safefs/dev2 && mkdir -p /var/tmp/safefs/dev3 &&\
     #Cleanup
     apt-get -y remove --auto-remove autoconf automake build-essential byacc dh-exec flex g++ gcc libtool make &&\
     apt-get clean &&\
-    rm -rf /var/lib/apt/lists/* /var/tmp/*
-COPY entrypoint.sh mount.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/entrypoint.sh /usr/local/bin/mount.sh
+    # Set up mounting scripts
+    rm -rf /var/lib/apt/lists/* /var/tmp/* &&\
+    cp scripts/* /usr/local/bin/ &&\
+    chmod +x /usr/local/bin/entrypoint.sh /usr/local/bin/mount.sh
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 VOLUME /mnt/fuse
 WORKDIR /
