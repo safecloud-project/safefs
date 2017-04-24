@@ -15,7 +15,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <sys/stat.h>
-#include "../SDSConfig.h"
+#include "../SFSConfig.h"
 
 #define DET_PADSIZE 16
 

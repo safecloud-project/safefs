@@ -15,8 +15,8 @@
 #include <string.h>
 #include <sys/stat.h>
 #include "../logdef.h"
-#include "../SDSConfig.h"
-#include "../ivtable/ivtable.h"
+#include "../SFSConfig.h"
+#include "../map/map.h"
 
 #define READ 0
 #define WRITE 1

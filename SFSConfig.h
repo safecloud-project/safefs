@@ -13,7 +13,7 @@
 #include <glib.h>
 #include <stdio.h>
 #include "logdef.h"
-#include "inih/ini.h"
+#include "map/map.h"
 
 #define MULTI_LOOPBACK 0
 #define SFUSE 1

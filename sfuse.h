@@ -35,7 +35,7 @@ typedef unsigned long u_long;
 #include "layers_def.h"
 #include "crypto/nopcrypt.h"
 #include "crypto/nopcrypt_padded.h"
-#include "SDSConfig.h"
+#include "SFSConfig.h"
 #include "crypto/rand_symmetric.h"
 #include "crypto/det_symmetric.h"
 #include "crypto/nopcrypt.h"

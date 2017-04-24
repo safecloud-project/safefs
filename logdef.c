@@ -14,7 +14,7 @@
 #include <unistd.h>
 #include <zlog.h>
 
-#include "SDSConfig.h"
+#include "SFSConfig.h"
 #include "logdef.h"
 #include "utils.h"
 
