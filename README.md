@@ -51,11 +51,68 @@ Block virtualization layer ([block_align]):
 
 
 
-## Deploying SafeFS
+## Compiling SafeFS
 
+To get a running install of SafeFS, you can manually build the code from source or build a docker container using the Dockerfile at the base of the repo.
+
+### Docker
+To build a usable docker image of SafeFS, place yourself at the top of the repo and run:
+```bash
+docker build --tag safefs .
+``` 
+**NOTE:** Because SafeFS relies on the FUSE Linux kernel module, the image built will only run properly on top of a Linux host with the FUSE module enabled.
+
+### From sources
+SafeFS currently relies on several projects:
+
+* libfuse-dev
+* libgcrypt-dev
+* libglib2.0-dev
+* libleveldb-dev
+* libssl
+* liberasurecode (1.2)
+* zlog (1.2.12)
+
+On ubuntu, some of these dependencies can be installed using the following command:
+```bash
+apt-get install libfuse-dev libgcrypt20-dev libglib2.0-dev \
+                libleveldb-dev libssl-dev
+```
+The last two libraries have to be manually compiled and installed (ie: `make install`).
+The expected version of [liberasurecode](https://github.com/openstack/liberasurecode) can be found [here](https://github.com/openstack/liberasurecode/releases/tag/1.2.0).
+Same for [zlog](https://github.com/HardySimpson/zlog) where an installable version can be found [here](https://github.com/HardySimpson/zlog/releases/tag/1.2.12).
+
+Once the dependencies are installed, place yourself at the root of the project and run:
+```bash
+git submodule init
+git submodule update
+make all
+```
+The command above should produce a binary named `safefs` that will be used to start the file system.
 
 ## Running SafeFS
 
+Similarly to the two building possibilities, `safefs` can be started using docker or directly on the host.
 
+### Docker
+To run a FUSE file system in a docker container, it needs to be started with privileges.
+```bash
+docker run --interactive --tty --privileged safefs
+``` 
+If you built the image using the unmodified version of the Dockerfile in this repo, the command above should have started the container and mounted your instance of SafeFS on `/mnt/fuse`.
+
+To avoid the automatic mounting of the container, you can bypass the entrypoint:
+```bash
+docker run --interactive --tty --privileged --entrypoint /bin/bash safefs
+``` 
+
+### Local
+To run locally, compile the code as described in the previous section and run the following command: 
+```bash
+./safefs /mnt/point -oallow_other
+```
+where `/mnt/point` is the mount point for your instance of SafeFS.
+
+##### 
 For more information please contact:
 Joao Paulo jtpaulo at di.uminho.pt
